@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;tasca1Nivel2&apos; to &apos;tasca1Ej2&apos;&#x0D;&#x0A;- Original project: &apos;tasca1Ej2&apos;&#x0D;&#x0A;- Original element: &apos;tasca1Ej2/src/tasca1Nivel2&apos;&#x0D;&#x0A;- Renamed element: &apos;tasca1Ej2/src/tasca1Ej2&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings&#x0D;&#x0A;- Rename subpackages of the package" description="Rename package &apos;tasca1Nivel2&apos;" flags="589830" hierarchical="true" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;tasca1Nivel2" name="tasca1Ej2" qualified="false" references="true" stamp="1737750274139" textual="false" version="1.0"/>
+</session>

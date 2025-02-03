@@ -1,0 +1,10 @@
+package tasca1;
+
+public class WindInstrument {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

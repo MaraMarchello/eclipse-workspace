@@ -1,0 +1,19 @@
+package tasca1Nivel2;
+
+public class Main {
+	public static void main(String[] args) {
+
+		System.out.println("Mark (static final): " + Car.mark);
+		System.out.println("Model (static): " + Car.model);
+
+		Car.model = "Camry";
+		System.out.println("Updated model: " + Car.model);
+
+		Car car = new Car(150);
+		System.out.println("Power (final): " + car.power);
+
+		Car.brake();
+
+		car.accelerate();
+	}
+}
