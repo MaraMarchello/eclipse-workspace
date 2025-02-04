@@ -2,7 +2,6 @@ INDEX VERSION 1.134+C:\Users\marat\eclipse-workspace\.metadata\.plugins\org.ecli
 663788690.index
 3803894794.index
 843642725.index
-754036563.index
 1021198507.index
 2668256146.index
 1162856435.index
@@ -34,4 +33,3 @@ INDEX VERSION 1.134+C:\Users\marat\eclipse-workspace\.metadata\.plugins\org.ecli
 429506547.index
 4265610636.index
 2418005525.index
-2665312357.index
