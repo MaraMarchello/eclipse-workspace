@@ -6,6 +6,10 @@ public class OnlineWorker extends Worker {
 	public OnlineWorker(String name, String lastName, double pricePerHour) {
 		super(name, lastName, pricePerHour);
 	}
+	 @Deprecated
+	    public void oldMethod() {
+	        System.out.println("This is an old method in OnlineWorker.");
+	    }
 
 	@Override
 	public double calculateSalary(int hoursWorked) {

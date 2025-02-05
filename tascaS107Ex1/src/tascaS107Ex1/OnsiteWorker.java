@@ -1,7 +1,7 @@
 package tascaS107Ex1;
 
 public class OnsiteWorker extends Worker {
-    private static double fuel = 100.0; // Default fuel compensation
+    private static double fuel = 100.0; 
 
     public OnsiteWorker(String name, String lastName, double pricePerHour) {
         super(name, lastName, pricePerHour);
