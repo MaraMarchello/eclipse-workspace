@@ -8,6 +8,9 @@ import java.util.*;
 
 public class DirectoryReplicator5 {
     public static void replicateAlphabetically(String sourcePath) throws IOException {
+        if (sourcePath == null) {
+            throw new IllegalArgumentException("Source path cannot be null");
+        }
         
         Path sourceDir = Paths.get(sourcePath);
         if (!Files.exists(sourceDir) || !Files.isDirectory(sourceDir)) {
@@ -45,21 +48,38 @@ public class DirectoryReplicator5 {
     }
 
     private static void copyDirectory(Path source, Path target) throws IOException {
-        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+        Files.walkFileTree(source, EnumSet.of(FileVisitOption.FOLLOW_LINKS), 
+            Integer.MAX_VALUE, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) 
                 throws IOException {
                 Path targetDir = target.resolve(source.relativize(dir));
-                Files.createDirectories(targetDir);
+                try {
+                    Files.createDirectories(targetDir);
+                } catch (IOException e) {
+                    System.err.println("Failed to create directory: " + targetDir);
+                    throw e;
+                }
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) 
                 throws IOException {
-                Files.copy(file, 
-                          target.resolve(source.relativize(file)),
-                          StandardCopyOption.REPLACE_EXISTING);
+                try {
+                    Files.copy(file, 
+                              target.resolve(source.relativize(file)),
+                              StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    System.err.println("Failed to copy file: " + file);
+                    throw e;
+                }
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                System.err.println("Failed to process file: " + file);
                 return FileVisitResult.CONTINUE;
             }
         });
@@ -215,44 +235,6 @@ public class DirectoryReplicator5 {
             System.out.println("=".repeat(40));
             System.out.println(fileInfo);
             System.out.println("=".repeat(40));
-        }
-    }
-
-    public static void main(String[] args) {
-        if (args.length < 1 || args.length > 2) {
-            System.out.println("Usage:");
-            System.out.println("  For directory operations: java DirectoryReplicator <source_directory_path>");
-            System.out.println("  For reading text file: java DirectoryReplicator -t <text_file_path>");
-            System.out.println("  For serializing file info: java DirectoryReplicator -s <file_path>");
-            System.out.println("  For deserializing file info: java DirectoryReplicator -d <file_path.ser>");
-            return;
-        }
-
-        try {
-            if (args[0].equals("-t") && args.length == 2) {
-                
-                readAndDisplayTextFile(args[1]);
-            } else if (args[0].equals("-s") && args.length == 2) {
-                // Serialize file information
-                serializeObject(args[1]);
-            } else if (args[0].equals("-d") && args.length == 2) {
-                // Deserialize file information
-                deserializeObject(args[1]);
-            } else {
-                // Original directory operations
-                System.out.println("Creating directory listing file...");
-                listDirectoryContents(args[0]);
-                
-                System.out.println("\nReplicating directory contents...");
-                replicateAlphabetically(args[0]);
-                System.out.println("Directory contents replicated successfully!");
-            }
-        } catch (IOException e) {
-            System.err.println("Error during operation: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Invalid input: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.err.println("Error deserializing object: " + e.getMessage());
         }
     }
 }

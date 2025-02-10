@@ -7,6 +7,9 @@ import java.util.*;
 
 public class DirectoryReplicator {
 	public static void replicateAlphabetically(String sourcePath) throws IOException {
+		if (sourcePath == null || sourcePath.trim().isEmpty()) {
+			throw new IllegalArgumentException("Source path cannot be null or empty");
+		}
 		
 		Path sourceDir = Paths.get(sourcePath);
 		if (!Files.exists(sourceDir) || !Files.isDirectory(sourceDir)) {
@@ -57,21 +60,5 @@ public class DirectoryReplicator {
 				return FileVisitResult.CONTINUE;
 			}
 		});
-	}
-
-	public static void main(String[] args) {
-		if (args.length != 1) {
-			System.out.println("Usage: java DirectoryReplicator <source_directory_path>");
-			return;
-		}
-
-		try {
-			replicateAlphabetically(args[0]);
-			System.out.println("Directory contents replicated successfully!");
-		} catch (IOException e) {
-			System.err.println("Error during replication: " + e.getMessage());
-		} catch (IllegalArgumentException e) {
-			System.err.println("Invalid directory: " + e.getMessage());
-		}
 	}
 }

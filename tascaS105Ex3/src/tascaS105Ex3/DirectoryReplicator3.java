@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class DirectoryReplicator3 {
-	public static void replicateAlphabetically(String sourcePath) throws IOException {
+	public void replicateAlphabetically(String sourcePath) throws IOException {
         
         Path sourceDir = Paths.get(sourcePath);
         if (!Files.exists(sourceDir) || !Files.isDirectory(sourceDir)) {
@@ -35,16 +35,14 @@ public class DirectoryReplicator3 {
             Path target = targetDir.resolve(source.getFileName());
             
             if (Files.isDirectory(source)) {
-                s
                 copyDirectory(source, target);
             } else {
-                
                 Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
             }
         }
     }
 
-	private static void copyDirectory(Path source, Path target) throws IOException {
+	private void copyDirectory(Path source, Path target) throws IOException {
 		Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
 			@Override
 			public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
@@ -61,7 +59,7 @@ public class DirectoryReplicator3 {
 		});
 	}
 
-	public static void listDirectoryContents(String directoryPath) throws IOException {
+	public void listDirectoryContents(String directoryPath) throws IOException {
 		Path dir = Paths.get(directoryPath);
 		if (!Files.exists(dir) || !Files.isDirectory(dir)) {
 			throw new IllegalArgumentException("Path must be an existing directory");
@@ -79,7 +77,7 @@ public class DirectoryReplicator3 {
 		}
 	}
 
-	private static void listDirectoryContentsRecursive(Path dir, int level, BufferedWriter writer) throws IOException {
+	private void listDirectoryContentsRecursive(Path dir, int level, BufferedWriter writer) throws IOException {
 
 		List<Path> contents = new ArrayList<>();
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
@@ -104,27 +102,6 @@ public class DirectoryReplicator3 {
 			if (Files.isDirectory(path)) {
 				listDirectoryContentsRecursive(path, level + 1, writer);
 			}
-		}
-	}
-
-	public static void main(String[] args) {
-		if (args.length != 1) {
-			System.out.println("Usage: java DirectoryReplicator <source_directory_path>");
-			return;
-		}
-
-		try {
-
-			System.out.println("Creating directory listing file...");
-			listDirectoryContents(args[0]);
-
-			System.out.println("\nReplicating directory contents...");
-			replicateAlphabetically(args[0]);
-			System.out.println("Directory contents replicated successfully!");
-		} catch (IOException e) {
-			System.err.println("Error during operation: " + e.getMessage());
-		} catch (IllegalArgumentException e) {
-			System.err.println("Invalid directory: " + e.getMessage());
 		}
 	}
 }

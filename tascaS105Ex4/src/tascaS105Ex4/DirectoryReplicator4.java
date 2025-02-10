@@ -1,6 +1,7 @@
 package tascaS105Ex4;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +17,11 @@ public class DirectoryReplicator4 {
 
         
         Path targetDir = Paths.get(sourcePath + "_alphabetical");
-        Files.createDirectories(targetDir);
+        try {
+            Files.createDirectories(targetDir);
+        } catch (SecurityException e) {
+            throw new IOException("Unable to create target directory due to security restrictions", e);
+        }
 
         
         List<Path> contents = new ArrayList<>();
@@ -110,12 +115,14 @@ public class DirectoryReplicator4 {
                                      .toInstant()
                                      .atZone(java.time.ZoneId.systemDefault())
                                      .format(dateFormatter);
+            String size = Files.isDirectory(path) ? "<DIR>" : String.format("%,d bytes", attrs.size());
             
-            writer.write(String.format("%s[%s] %s - %s%n", 
+            writer.write(String.format("%s[%s] %s - %s - %s%n", 
                                      indent, 
                                      type, 
                                      path.getFileName(),
-                                     lastModified));
+                                     lastModified,
+                                     size));
 
             
             if (Files.isDirectory(path)) {
@@ -139,40 +146,12 @@ public class DirectoryReplicator4 {
         System.out.println("\nDisplaying contents of: " + path.getFileName());
         System.out.println("=".repeat(40));
         
-        try (BufferedReader reader = Files.newBufferedReader(path)) {
+        try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
         }
         System.out.println("=".repeat(40));
-    }
-
-    public static void main(String[] args) {
-        if (args.length < 1 || args.length > 2) {
-            System.out.println("Usage:");
-            System.out.println("  For directory operations: java DirectoryReplicator <source_directory_path>");
-            System.out.println("  For reading text file: java DirectoryReplicator -t <text_file_path>");
-            return;
-        }
-
-        try {
-            if (args[0].equals("-t") && args.length == 2) {
-                
-                readAndDisplayTextFile(args[1]);
-            } else {
-                
-                System.out.println("Creating directory listing file...");
-                listDirectoryContents(args[0]);
-                
-                System.out.println("\nReplicating directory contents...");
-                replicateAlphabetically(args[0]);
-                System.out.println("Directory contents replicated successfully!");
-            }
-        } catch (IOException e) {
-            System.err.println("Error during operation: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Invalid input: " + e.getMessage());
-        }
     }
 }
