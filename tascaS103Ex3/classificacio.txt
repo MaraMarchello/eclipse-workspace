@@ -4,3 +4,8 @@ mmm: 0 points
 vvv: 0 points
 Anna: 0 points
 1: 0 points
+mm,0
+aa,0
+mn,0
+marat,0
+mara,5

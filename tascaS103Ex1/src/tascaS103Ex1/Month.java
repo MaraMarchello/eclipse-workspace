@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class Month {
-	private String name;
+	private final String name;
 
 	public Month(String name) {
 		this.name = name;
