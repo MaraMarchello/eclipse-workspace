@@ -3,6 +3,7 @@ package tascaS108Ex7;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StringSorterReverse {
 
@@ -18,13 +19,10 @@ public class StringSorterReverse {
 
 		System.out.println("Lista original: " + mixedList);
 		
-		
-		List<String> strings = new ArrayList<>();
-		for (Object item : mixedList) {
-			if (item instanceof String) {
-				strings.add((String) item);
-			}
-		}
+		List<String> strings = mixedList.stream()
+				.filter(item -> item instanceof String)
+				.map(item -> (String) item)
+				.collect(Collectors.toList());
 
 		
 		strings.sort(Comparator.comparingInt(String::length).reversed());

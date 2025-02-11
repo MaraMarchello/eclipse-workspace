@@ -17,16 +17,11 @@ public class StringSorter {
 
 		System.out.println("Lista original: " + mixedList);
 
-
-		List<String> strings = new ArrayList<>();
-		for (Object item : mixedList) {
-			if (item instanceof String) {
-				strings.add((String) item);
-			}
-		}
-
-
-		strings.sort(Comparator.comparingInt(String::length));
+		List<String> strings = mixedList.stream()
+				.filter(item -> item instanceof String)
+				.map(item -> (String) item)
+				.sorted(Comparator.comparingInt(String::length))
+				.toList();
 
 		System.out.println("Cadenes ordenades per longitud (de més curta a més llarga): " + strings);
 
