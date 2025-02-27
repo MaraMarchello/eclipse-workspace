@@ -6,6 +6,9 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\marat\eclipse-workspace"/>
+			<item value="C:\Users\marat\eclipse-workspace\tascS104Ex1"/>
+			<item value="C:\Users\marat\CascadeProjects"/>
 			<item value="C:\Users\marat\Documents\GitHub\1.2-Exceptions.Nivell1"/>
 			<item value="C:\Users\marat\Downloads\Debugger (1)\Debugger"/>
 		</list>
@@ -48,5 +51,9 @@
 	</section>
 	<section name="org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea">
 		<item key="OUTSIDE_LOCATION" value="C:\Users\marat\eclipse-workspace\tascaS104Ex1"/>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="611"/>
+		<item key="DIALOG_Y_ORIGIN" value="274"/>
 	</section>
 </section>
