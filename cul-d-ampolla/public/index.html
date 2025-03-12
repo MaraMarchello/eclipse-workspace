@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cul d'Ampolla - Optician's Shop Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Cul d'Ampolla</h1>
+            <p>Optician's Shop Management</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link active" data-section="customers">Customers</a></li>
+                <li><a href="#" class="nav-link" data-section="glasses">Glasses</a></li>
+                <li><a href="#" class="nav-link" data-section="sales">Sales</a></li>
+                <li><a href="#" class="nav-link" data-section="reports">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Customers Section -->
+        <section id="customers" class="section active">
+            <div class="section-header">
+                <h2>Customer Management</h2>
+                <button id="add-customer-btn" class="btn primary"><i class="fas fa-plus"></i> Add Customer</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="customer-search" placeholder="Search customers...">
+                <button class="btn search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="data-container">
+                <table id="customers-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Registration Date</th>
+                            <th>Recommended By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Customer data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Glasses Section -->
+        <section id="glasses" class="section">
+            <div class="section-header">
+                <h2>Glasses Inventory</h2>
+                <button id="add-glasses-btn" class="btn primary"><i class="fas fa-plus"></i> Add Glasses</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="glasses-search" placeholder="Search glasses...">
+                <button class="btn search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="data-container">
+                <table id="glasses-table">
+                    <thead>
+                        <tr>
+                            <th>Brand</th>
+                            <th>Mounting Type</th>
+                            <th>Provider</th>
+                            <th>Price (€)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Glasses data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sales Section -->
+        <section id="sales" class="section">
+            <div class="section-header">
+                <h2>Sales Records</h2>
+                <button id="add-sale-btn" class="btn primary"><i class="fas fa-plus"></i> Add Sale</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="sales-search" placeholder="Search sales...">
+                <button class="btn search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="data-container">
+                <table id="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Glasses</th>
+                            <th>Price (€)</th>
+                            <th>Sale Date</th>
+                            <th>Recommended By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sales data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="section">
+            <div class="section-header">
+                <h2>Reports</h2>
+            </div>
+            <div class="reports-container">
+                <div class="report-card">
+                    <h3>Sales by Brand</h3>
+                    <div class="chart-container">
+                        <canvas id="brand-chart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Sales by Provider</h3>
+                    <div class="chart-container">
+                        <canvas id="provider-chart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Customer Recommendations</h3>
+                    <div class="chart-container">
+                        <canvas id="recommendations-chart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Monthly Sales</h3>
+                    <div class="chart-container">
+                        <canvas id="monthly-sales-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for adding/editing customers -->
+    <div id="customer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="customer-modal-title">Add Customer</h2>
+            <form id="customer-form">
+                <input type="hidden" id="customer-id">
+                <div class="form-group">
+                    <label for="customer-name">Name:</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">Email:</label>
+                    <input type="email" id="customer-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Phone:</label>
+                    <input type="text" id="customer-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-street">Street:</label>
+                    <input type="text" id="customer-street" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-city">City:</label>
+                        <input type="text" id="customer-city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-postal-code">Postal Code:</label>
+                        <input type="text" id="customer-postal-code" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="customer-country">Country:</label>
+                    <input type="text" id="customer-country" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-recommended-by">Recommended By:</label>
+                    <select id="customer-recommended-by">
+                        <option value="">None</option>
+                        <!-- Customer options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                    <button type="button" class="btn secondary close-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing glasses -->
+    <div id="glasses-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="glasses-modal-title">Add Glasses</h2>
+            <form id="glasses-form">
+                <input type="hidden" id="glasses-id">
+                <div class="form-group">
+                    <label for="glasses-brand">Brand:</label>
+                    <input type="text" id="glasses-brand" required>
+                </div>
+                <div class="form-group">
+                    <label for="glasses-mounting-type">Mounting Type:</label>
+                    <select id="glasses-mounting-type" required>
+                        <option value="floating">Floating</option>
+                        <option value="paste">Paste</option>
+                        <option value="metal">Metal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="glasses-provider">Provider:</label>
+                    <input type="text" id="glasses-provider" required>
+                </div>
+                <div class="form-group">
+                    <label for="glasses-price">Price (€):</label>
+                    <input type="number" id="glasses-price" step="0.01" min="0" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                    <button type="button" class="btn secondary close-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing sales -->
+    <div id="sale-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="sale-modal-title">Add Sale</h2>
+            <form id="sale-form">
+                <input type="hidden" id="sale-id">
+                <div class="form-group">
+                    <label for="sale-customer">Customer:</label>
+                    <select id="sale-customer" required>
+                        <!-- Customer options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sale-glasses">Glasses:</label>
+                    <select id="sale-glasses" required>
+                        <!-- Glasses options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sale-date">Sale Date:</label>
+                    <input type="date" id="sale-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="sale-recommended-by">Recommended By:</label>
+                    <select id="sale-recommended-by">
+                        <option value="">None</option>
+                        <!-- Customer options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                    <button type="button" class="btn secondary close-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for displaying provider details -->
+    <div id="provider-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="provider-details-title">Provider Details</h2>
+            <div id="provider-details-content">
+                <!-- Provider details will be populated here -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn secondary close-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cul d'Ampolla - Optician's Shop Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Cul d'Ampolla</h1>
+            <p>Optician's Shop Management</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link active" data-section="customers">Customers</a></li>
+                <li><a href="#" class="nav-link" data-section="glasses">Glasses</a></li>
+                <li><a href="#" class="nav-link" data-section="sales">Sales</a></li>
+                <li><a href="#" class="nav-link" data-section="reports">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Customers Section -->
+        <section id="customers" class="section active">
+            <div class="section-header">
+                <h2>Customer Management</h2>
+                <button id="add-customer-btn" class="btn primary"><i class="fas fa-plus"></i> Add Customer</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="customer-search" placeholder="Search customers...">
+                <button class="btn search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="data-container">
+                <table id="customers-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Registration Date</th>
+                            <th>Recommended By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Customer data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Glasses Section -->
+        <section id="glasses" class="section">
+            <div class="section-header">
+                <h2>Glasses Inventory</h2>
+                <button id="add-glasses-btn" class="btn primary"><i class="fas fa-plus"></i> Add Glasses</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="glasses-search" placeholder="Search glasses...">
+                <button class="btn search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="data-container">
+                <table id="glasses-table">
+                    <thead>
+                        <tr>
+                            <th>Brand</th>
+                            <th>Mounting Type</th>
+                            <th>Provider</th>
+                            <th>Price (€)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Glasses data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Sales Section -->
+        <section id="sales" class="section">
+            <div class="section-header">
+                <h2>Sales Records</h2>
+                <button id="add-sale-btn" class="btn primary"><i class="fas fa-plus"></i> Add Sale</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="sales-search" placeholder="Search sales...">
+                <button class="btn search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="data-container">
+                <table id="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Glasses</th>
+                            <th>Price (€)</th>
+                            <th>Sale Date</th>
+                            <th>Recommended By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sales data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="section">
+            <div class="section-header">
+                <h2>Reports</h2>
+            </div>
+            <div class="reports-container">
+                <div class="report-card">
+                    <h3>Sales by Brand</h3>
+                    <div class="chart-container">
+                        <canvas id="brand-chart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Sales by Provider</h3>
+                    <div class="chart-container">
+                        <canvas id="provider-chart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Customer Recommendations</h3>
+                    <div class="chart-container">
+                        <canvas id="recommendations-chart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Monthly Sales</h3>
+                    <div class="chart-container">
+                        <canvas id="monthly-sales-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for adding/editing customers -->
+    <div id="customer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="customer-modal-title">Add Customer</h2>
+            <form id="customer-form">
+                <input type="hidden" id="customer-id">
+                <div class="form-group">
+                    <label for="customer-name">Name:</label>
+                    <input type="text" id="customer-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-email">Email:</label>
+                    <input type="email" id="customer-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-phone">Phone:</label>
+                    <input type="text" id="customer-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-street">Street:</label>
+                    <input type="text" id="customer-street" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="customer-city">City:</label>
+                        <input type="text" id="customer-city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-postal-code">Postal Code:</label>
+                        <input type="text" id="customer-postal-code" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="customer-country">Country:</label>
+                    <input type="text" id="customer-country" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer-recommended-by">Recommended By:</label>
+                    <select id="customer-recommended-by">
+                        <option value="">None</option>
+                        <!-- Customer options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                    <button type="button" class="btn secondary close-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing glasses -->
+    <div id="glasses-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="glasses-modal-title">Add Glasses</h2>
+            <form id="glasses-form">
+                <input type="hidden" id="glasses-id">
+                <div class="form-group">
+                    <label for="glasses-brand">Brand:</label>
+                    <input type="text" id="glasses-brand" required>
+                </div>
+                <div class="form-group">
+                    <label for="glasses-mounting-type">Mounting Type:</label>
+                    <select id="glasses-mounting-type" required>
+                        <option value="floating">Floating</option>
+                        <option value="paste">Paste</option>
+                        <option value="metal">Metal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="glasses-provider">Provider:</label>
+                    <input type="text" id="glasses-provider" required>
+                </div>
+                <div class="form-group">
+                    <label for="glasses-price">Price (€):</label>
+                    <input type="number" id="glasses-price" step="0.01" min="0" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                    <button type="button" class="btn secondary close-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing sales -->
+    <div id="sale-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="sale-modal-title">Add Sale</h2>
+            <form id="sale-form">
+                <input type="hidden" id="sale-id">
+                <div class="form-group">
+                    <label for="sale-customer">Customer:</label>
+                    <select id="sale-customer" required>
+                        <!-- Customer options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sale-glasses">Glasses:</label>
+                    <select id="sale-glasses" required>
+                        <!-- Glasses options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sale-date">Sale Date:</label>
+                    <input type="date" id="sale-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="sale-recommended-by">Recommended By:</label>
+                    <select id="sale-recommended-by">
+                        <option value="">None</option>
+                        <!-- Customer options will be populated here -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Save</button>
+                    <button type="button" class="btn secondary close-modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for displaying provider details -->
+    <div id="provider-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="provider-details-title">Provider Details</h2>
+            <div id="provider-details-content">
+                <!-- Provider details will be populated here -->
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn secondary close-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
