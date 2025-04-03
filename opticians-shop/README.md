@@ -19,7 +19,7 @@ Sistema de gestión para una tienda de óptica que permite administrar clientes,
 
 1. Clonar el repositorio:
 ```bash
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/MaraMarchello/S2.03-Ex1-Estructura-de-dades-MongoDB-N1
 cd opticians-shop
 ```
 

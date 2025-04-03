@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'eclipse'
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'tascaS302Ex1.Main'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+}
+
+eclipse {
+    classpath {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+} 
