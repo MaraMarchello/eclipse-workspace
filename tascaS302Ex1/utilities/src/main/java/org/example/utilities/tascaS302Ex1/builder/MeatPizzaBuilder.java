@@ -1,22 +1,24 @@
 package org.example.utilities.tascaS302Ex1.builder;
 
+import org.example.utilities.tascaS302Ex1.model.DoughType;
 import org.example.utilities.tascaS302Ex1.model.Pizza;
+import org.example.utilities.tascaS302Ex1.model.PizzaSize;
 
 public class MeatPizzaBuilder implements PizzaBuilder {
 	private Pizza pizza;
 
 	public MeatPizzaBuilder() {
-		this.pizza = new Pizza();
+		reset();
 	}
 
 	@Override
-	public PizzaBuilder setSize(String size) {
+	public PizzaBuilder setSize(PizzaSize size) {
 		this.pizza.setSize(size);
 		return this;
 	}
 
 	@Override
-	public PizzaBuilder setDough(String dough) {
+	public PizzaBuilder setDough(DoughType dough) {
 		this.pizza.setDough(dough);
 		return this;
 	}
@@ -29,13 +31,21 @@ public class MeatPizzaBuilder implements PizzaBuilder {
 
 	@Override
 	public Pizza build() {
-		return this.pizza;
+		Pizza result = this.pizza;
+		reset();
+		return result;
 	}
 
-	public void reset() {
+	@Override
+	public PizzaBuilder reset() {
 		this.pizza = new Pizza();
-		this.pizza.addTopping("Pepperoni");
-		this.pizza.addTopping("Ham");
-		this.pizza.addTopping("Bacon");
+		return this;
+	}
+
+	public PizzaBuilder addDefaultToppings() {
+		this.addTopping("Pepperoni");
+		this.addTopping("Ham");
+		this.addTopping("Bacon");
+		return this;
 	}
 }

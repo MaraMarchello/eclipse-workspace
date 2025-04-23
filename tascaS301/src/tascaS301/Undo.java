@@ -1,17 +1,25 @@
 package tascaS301;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * The Undo class implements the Singleton design pattern to manage command
+ * history. It maintains a history of commands that can be added, removed, and
+ * listed. Only one instance of this class can exist throughout the application.
+ */
 public class Undo {
 
 	private static Undo instance;
 
-	private String[] commandHistory;
-	private int historySize;
-	private int currentIndex;
+	private final List<String> commandHistory;
+
+	private int maxHistorySize;
 
 	private Undo() {
-		historySize = 10;
-		commandHistory = new String[historySize];
-		currentIndex = 0;
+		this.commandHistory = new ArrayList<>();
+		this.maxHistorySize = 10;
 	}
 
 	public static synchronized Undo getInstance() {
@@ -22,41 +30,48 @@ public class Undo {
 	}
 
 	public void addCommand(String command) {
-		commandHistory[currentIndex] = command;
-		currentIndex = (currentIndex + 1) % historySize;
+		if (command == null || command.trim().isEmpty()) {
+			return; 
+		}
+
+		if (commandHistory.size() >= maxHistorySize) {
+			commandHistory.remove(0);
+		}
+
+		commandHistory.add(command);
 	}
 
 	public boolean removeLastCommand() {
-
-		currentIndex = (currentIndex - 1 + historySize) % historySize;
-
-		if (commandHistory[currentIndex] != null) {
-			commandHistory[currentIndex] = null;
-			return true;
-		} else {
-
-			currentIndex = (currentIndex + 1) % historySize;
+		if (commandHistory.isEmpty()) {
 			return false;
 		}
+
+		commandHistory.remove(commandHistory.size() - 1);
+		return true;
 	}
 
 	public String[] listCommands() {
-		int count = 0;
-		for (String cmd : commandHistory) {
-			if (cmd != null)
-				count++;
+
+		return commandHistory.toArray(new String[0]);
+	}
+
+	public void setMaxHistorySize(int size) {
+		if (size <= 0) {
+			throw new IllegalArgumentException("History size must be positive");
 		}
 
-		String[] result = new String[count];
-		int resultIndex = 0;
+		this.maxHistorySize = size;
 
-		for (int i = 0; i < historySize; i++) {
-			int idx = (currentIndex + i) % historySize;
-			if (commandHistory[idx] != null) {
-				result[resultIndex++] = commandHistory[idx];
-			}
+		while (commandHistory.size() > maxHistorySize) {
+			commandHistory.remove(0);
 		}
+	}
 
-		return result;
+	public int getMaxHistorySize() {
+		return maxHistorySize;
+	}
+
+	public void clearHistory() {
+		commandHistory.clear();
 	}
 }
