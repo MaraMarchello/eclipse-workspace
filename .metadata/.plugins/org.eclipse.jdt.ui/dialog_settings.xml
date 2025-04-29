@@ -5,7 +5,7 @@
 	<item key="org.eclipse.jdt.ui.last.selected.project.jre" value="jdk-22"/>
 	<item key="delegateUpdating" value="false"/>
 	<item key="org.eclipse.jdt.ui.last.external.project" value="C:\Users\marat\eclipse-workspace\tascaS201"/>
-	<item key="org.eclipse.jdt.ui.lastextjar" value="C:\Users\marat\Downloads\mysql-connector-j-9.2.0\mysql-connector-j-9.2.0"/>
+	<item key="org.eclipse.jdt.ui.lastextjar" value="C:\Program Files\Apache\maven\bin"/>
 	<item key="UserLibraryLoadSaveDialog.size" value="640,680"/>
 	<item key="TypeHierarchyViewPart.hierarchyview" value="2"/>
 	<item key="TypeHierarchyViewPart.qualifiednames" value="false"/>
@@ -108,5 +108,10 @@
 	</section>
 	<section name="NewPackageWizardPage">
 		<item key="create_package_info_java" value="false"/>
+	</section>
+	<section name="JavaBuildConfigurationBlock">
+		<item key="expanded0" value="true"/>
+		<item key="expanded1" value="true"/>
+		<item key="expanded2" value="false"/>
 	</section>
 </section>
